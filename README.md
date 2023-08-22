@@ -10,8 +10,8 @@ This repository is split in two folders:
 
 |                   | Firmware                     | Client app                        |
 | ----------------- | ---------------------------- | --------------------------------- |
-| Without libraries | [old/firmware](old/firmware) | [old/client](old/ColorLampClient) |
-| With libraries    | [new/firmware](new/firmware) | [new/client](new/ColorLampClient) |
+| Without libraries | [old/firmware](old/firmware) | [old/ColorLampClient](old/ColorLampClient) |
+| With libraries    | [new/firmware](new/firmware) | [new/ColorLampClient](new/ColorLampClient) |
 
 ## Bluetooth interface
 
@@ -27,4 +27,4 @@ The firmware is written in Rust, and it does three things:
 
 - When a read request is received, it reads the current state of the lamp and sends it back to the client.
 - When a write request is received, it updates the current state of the lamp.
-- Every 10 seconds, it simulated a manual change of the lamp state, notifying the client.
+- Every 10 seconds, it simulates a manual change of the lamp state, notifying the client.
