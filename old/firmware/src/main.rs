@@ -28,7 +28,6 @@ fn main() {
         .unwrap()
         .attach_change_callback(|lamp| {
             // Indicate change.
-            info!("[MAIN] Sending change notification.");
             crate::bluetooth::indicate_lamp_changes(lamp);
         });
 
