@@ -1,0 +1,34 @@
+use esp_idf_sys::*;
+
+pub fn indicate_lamp_changes(lamp: &crate::lamp::Lamp) {
+    let values = crate::bluetooth::CONNECTION_VALUES
+        .get()
+        .unwrap()
+        .read()
+        .unwrap()
+        .clone();
+
+    if !values.is_connected() {
+        return;
+    }
+
+    unsafe {
+        esp_nofail!(esp_ble_gatts_send_indicate(
+            values.get_gatts_if(),
+            values.get_conn_id(),
+            values.get_brightness_handle(),
+            1,
+            lamp.get_brightness().to_le_bytes().to_vec().as_ptr() as _,
+            false,
+        ));
+
+        esp_nofail!(esp_ble_gatts_send_indicate(
+            values.get_gatts_if(),
+            values.get_conn_id(),
+            values.get_hue_handle(),
+            2,
+            lamp.get_hue().to_le_bytes().to_vec().as_ptr() as _,
+            false,
+        ));
+    }
+}
