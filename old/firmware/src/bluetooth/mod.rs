@@ -1,4 +1,4 @@
-use std::sync::{Mutex, OnceLock, RwLock};
+use std::sync::{OnceLock, RwLock};
 
 use esp_idf_sys::*;
 
@@ -138,7 +138,7 @@ pub fn register_brightness_characteristic(service_handle: u16) {
     }
 }
 
-pub fn register_hue_characteristic(service_handle: u16) {
+pub fn register_temperature_characteristic(service_handle: u16) {
     let mut constants = constants::Constants::default();
 
     unsafe {

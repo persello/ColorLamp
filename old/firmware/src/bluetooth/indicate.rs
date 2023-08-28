@@ -25,9 +25,9 @@ pub fn indicate_lamp_changes(lamp: &crate::lamp::Lamp) {
         esp_nofail!(esp_ble_gatts_send_indicate(
             values.get_gatts_if(),
             values.get_conn_id(),
-            values.get_hue_handle(),
+            values.get_temperature_handle(),
             2,
-            lamp.get_hue().to_le_bytes().to_vec().as_ptr() as _,
+            lamp.get_temperature().to_le_bytes().to_vec().as_ptr() as _,
             false,
         ));
     }

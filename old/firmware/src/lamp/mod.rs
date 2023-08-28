@@ -7,7 +7,7 @@ pub static LAMP: OnceLock<RwLock<crate::lamp::Lamp>> = OnceLock::new();
 
 /// A lamp that can be controlled.
 pub struct Lamp {
-    hue: u16,
+    temperature: u8,
     brightness: u8,
     change_callback: Option<Box<dyn Fn(&Lamp) + Send + Sync + 'static>>,
 }
@@ -15,21 +15,21 @@ pub struct Lamp {
 impl Lamp {
     /// Create a new Lamp.
     ///
-    /// Default hue is 0°, corresponding to red.
+    /// Default temperature is 0, corresponding to the warmest white.
     /// Default brightness is 0, corresponding to off.
     pub fn new() -> Self {
         Self {
-            hue: 0,
+            temperature: 0,
             brightness: 0,
             change_callback: None,
         }
     }
 
-    /// Set the hue of the lamp.
+    /// Set the temperature of the lamp.
     ///
-    /// The hue is a value between 0° and 360°.
-    pub fn set_hue(&mut self, hue: u16) {
-        self.hue = hue.clamp(0, 360);
+    /// The temperature is a value between 0 and 255.
+    pub fn set_temperature(&mut self, temperature: u8) {
+        self.temperature = temperature;
         if let Some(callback) = &self.change_callback {
             callback(self);
         }
@@ -37,24 +37,24 @@ impl Lamp {
 
     /// Set the brightness of the lamp.
     ///
-    /// The brightness is a value between 0 and 100%.
+    /// The brightness is a value between 0 and 255.
     pub fn set_brightness(&mut self, brightness: u8) {
-        self.brightness = brightness.clamp(0, 100);
+        self.brightness = brightness;
         if let Some(callback) = &self.change_callback {
             callback(self);
         }
     }
 
-    /// Get the hue of the lamp.
+    /// Get the temperature of the lamp.
     ///
-    /// The hue is a value between 0° and 360°.
-    pub fn get_hue(&self) -> u16 {
-        self.hue
+    /// The temperature is a value between 0 and 255.
+    pub fn get_temperature(&self) -> u8 {
+        self.temperature
     }
 
     /// Get the brightness of the lamp.
     ///
-    /// The brightness is a value between 0 and 100%.
+    /// The brightness is a value between 0 and 255.
     pub fn get_brightness(&self) -> u8 {
         self.brightness
     }
@@ -70,7 +70,7 @@ impl Lamp {
 impl Debug for Lamp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Lamp")
-            .field("hue", &self.hue)
+            .field("temperature", &self.temperature)
             .field("brightness", &self.brightness)
             .finish()
     }

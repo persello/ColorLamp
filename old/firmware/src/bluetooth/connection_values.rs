@@ -5,7 +5,7 @@ pub struct ConnectionValues {
     gatts_if: u8,
     conn_id: u16,
     brightness_handle: u16,
-    hue_handle: u16,
+    temperature_handle: u16,
 }
 
 impl ConnectionValues {
@@ -14,7 +14,7 @@ impl ConnectionValues {
             gatts_if: ESP_GATT_IF_NONE as u8,
             conn_id: u16::MAX,
             brightness_handle: u16::MAX,
-            hue_handle: u16::MAX,
+            temperature_handle: u16::MAX,
         }
     }
 
@@ -30,8 +30,8 @@ impl ConnectionValues {
         self.brightness_handle = brightness_handle;
     }
 
-    pub fn set_hue_handle(&mut self, hue_handle: u16) {
-        self.hue_handle = hue_handle;
+    pub fn set_temperature_handle(&mut self, temperature_handle: u16) {
+        self.temperature_handle = temperature_handle;
     }
 
     pub fn get_gatts_if(&self) -> u8 {
@@ -46,8 +46,8 @@ impl ConnectionValues {
         self.brightness_handle
     }
 
-    pub fn get_hue_handle(&self) -> u16 {
-        self.hue_handle
+    pub fn get_temperature_handle(&self) -> u16 {
+        self.temperature_handle
     }
 
     pub fn is_connected(&self) -> bool {

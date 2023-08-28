@@ -1,4 +1,4 @@
-use std::sync::{Mutex, RwLock};
+use std::sync::RwLock;
 
 use esp_idf_sys as _;
 use log::*;
@@ -34,12 +34,12 @@ fn main() {
     std::thread::spawn(|| loop {
         std::thread::sleep(std::time::Duration::from_secs(10));
 
-        let random_brightness = rand::random::<f32>() * 100.0;
-        let random_hue = rand::random::<f32>() * 360.0;
+        let random_brightness = rand::random::<f32>() * 255.0;
+        let random_temperature = rand::random::<f32>() * 255.0;
 
         info!(
-            "[MAIN] Setting (random) brightness to {}% and hue to {}°.",
-            random_brightness, random_hue
+            "[MAIN] Setting (random) brightness to {} and temperature to {}°.",
+            random_brightness, random_temperature
         );
 
         crate::lamp::LAMP
@@ -54,7 +54,7 @@ fn main() {
             .unwrap()
             .write()
             .unwrap()
-            .set_hue(random_hue as u16);
+            .set_temperature(random_temperature as u8);
     });
 
     // Start the Bluetooth stack.

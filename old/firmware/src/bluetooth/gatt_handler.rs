@@ -116,12 +116,12 @@ pub extern "C" fn gatts_event_handler(
 
                     info!("[GATTS] Registered brightness characteristic.");
 
-                    // Register hue characteristic.
+                    // Register temperature characteristic.
                     info!(
-                        "[GATTS] Registering hue characteristic for service with handle {}.",
+                        "[GATTS] Registering temperature characteristic for service with handle {}.",
                         param.service_handle
                     );
-                    crate::bluetooth::register_hue_characteristic(param.service_handle);
+                    crate::bluetooth::register_temperature_characteristic(param.service_handle);
                 } else if param.char_uuid.uuid.uuid128
                     == crate::bluetooth::constants::Constants::default()
                         .color_char_id
@@ -133,7 +133,7 @@ pub extern "C" fn gatts_event_handler(
                         .unwrap()
                         .write()
                         .unwrap()
-                        .set_hue_handle(param.attr_handle);
+                        .set_temperature_handle(param.attr_handle);
 
                     info!("[GATTS] Registered color characteristic.");
                 }
@@ -200,13 +200,18 @@ pub extern "C" fn gatts_event_handler(
                     .unwrap()
                     .read()
                     .unwrap()
-                    .get_hue_handle()
+                    .get_temperature_handle()
             {
-                let hue = crate::lamp::LAMP.get().unwrap().read().unwrap().get_hue();
+                let temperature = crate::lamp::LAMP
+                    .get()
+                    .unwrap()
+                    .read()
+                    .unwrap()
+                    .get_temperature();
 
-                info!("[GATTS] Hue is {}°.", hue);
+                info!("[GATTS] Temperature is {}°.", temperature);
 
-                hue.to_le_bytes().to_vec()
+                temperature.to_le_bytes().to_vec()
             } else {
                 vec![]
             };
@@ -245,11 +250,11 @@ pub extern "C" fn gatts_event_handler(
             );
 
             let value = unsafe { std::slice::from_raw_parts(param.value, param.len as usize) };
-            let mut buffer = [0u8; 2];
+            let mut buffer = [0u8; 1];
 
             if value.len() > buffer.len() {
-                warn!("[GATTS] Value is too long, truncating to 2 bytes.");
-                buffer[..].copy_from_slice(&value[..2]);
+                warn!("[GATTS] Value is too long, truncating to 1 byte.");
+                buffer[..].copy_from_slice(&value[..1]);
             } else {
                 buffer[..value.len()].copy_from_slice(value);
             }
@@ -289,25 +294,25 @@ pub extern "C" fn gatts_event_handler(
                     .unwrap()
                     .read()
                     .unwrap()
-                    .get_hue_handle()
+                    .get_temperature_handle()
             {
-                let hue = u16::from_le_bytes(buffer);
+                let temperature = u8::from_le_bytes(buffer);
 
-                info!("[GATTS] Setting hue to {}°.", hue);
+                info!("[GATTS] Setting temperature to {}°.", temperature);
 
                 crate::lamp::LAMP
                     .get()
                     .unwrap()
                     .write()
                     .unwrap()
-                    .set_hue(hue);
+                    .set_temperature(temperature);
 
                 crate::lamp::LAMP
                     .get()
                     .unwrap()
                     .read()
                     .unwrap()
-                    .get_hue()
+                    .get_temperature()
                     .to_le_bytes()
                     .to_vec()
             } else {
