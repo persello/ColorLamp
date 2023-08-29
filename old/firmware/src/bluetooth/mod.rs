@@ -123,6 +123,7 @@ pub fn register_brightness_characteristic(service_handle: u16) {
             (ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE) as u16,
             (ESP_GATT_CHAR_PROP_BIT_READ
                 | ESP_GATT_CHAR_PROP_BIT_WRITE
+                | ESP_GATT_CHAR_PROP_BIT_WRITE_NR
                 | ESP_GATT_CHAR_PROP_BIT_NOTIFY) as u8,
             &mut esp_attr_value_t {
                 attr_len: 1,
@@ -146,6 +147,7 @@ pub fn register_temperature_characteristic(service_handle: u16) {
             (ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE) as u16,
             (ESP_GATT_CHAR_PROP_BIT_READ
                 | ESP_GATT_CHAR_PROP_BIT_WRITE
+                | ESP_GATT_CHAR_PROP_BIT_WRITE_NR
                 | ESP_GATT_CHAR_PROP_BIT_NOTIFY) as u8,
             &mut esp_attr_value_t {
                 attr_len: 2,

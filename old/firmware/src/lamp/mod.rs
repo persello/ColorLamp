@@ -9,7 +9,7 @@ pub static LAMP: OnceLock<RwLock<crate::lamp::Lamp>> = OnceLock::new();
 pub struct Lamp {
     temperature: u8,
     brightness: u8,
-    change_callback: Option<Box<dyn Fn(&Lamp) + Send + Sync + 'static>>,
+    change_callback: Option<Box<dyn Fn(&Lamp, bool) + Send + Sync + 'static>>,
 }
 
 impl Lamp {
@@ -28,20 +28,20 @@ impl Lamp {
     /// Set the temperature of the lamp.
     ///
     /// The temperature is a value between 0 and 255.
-    pub fn set_temperature(&mut self, temperature: u8) {
+    pub fn set_temperature(&mut self, temperature: u8, notify: bool) {
         self.temperature = temperature;
         if let Some(callback) = &self.change_callback {
-            callback(self);
+            callback(self, notify);
         }
     }
 
     /// Set the brightness of the lamp.
     ///
     /// The brightness is a value between 0 and 255.
-    pub fn set_brightness(&mut self, brightness: u8) {
+    pub fn set_brightness(&mut self, brightness: u8, notify: bool) {
         self.brightness = brightness;
         if let Some(callback) = &self.change_callback {
-            callback(self);
+            callback(self, notify);
         }
     }
 
@@ -62,7 +62,10 @@ impl Lamp {
     /// Attach a callback that is called whenever the lamp changes state.
     ///
     /// The callback is called with a reference to the lamp.
-    pub fn attach_change_callback(&mut self, callback: impl Fn(&Lamp) + Send + Sync + 'static) {
+    pub fn attach_change_callback(
+        &mut self,
+        callback: impl Fn(&Lamp, bool) + Send + Sync + 'static,
+    ) {
         self.change_callback = Some(Box::new(callback));
     }
 }

@@ -191,7 +191,7 @@ pub extern "C" fn gatts_event_handler(
                     .unwrap()
                     .get_brightness();
 
-                info!("[GATTS] Brightness is {}%.", brightness);
+                info!("[GATTS] Brightness is {}.", brightness);
 
                 brightness.to_le_bytes().to_vec()
             } else if param.handle
@@ -271,14 +271,14 @@ pub extern "C" fn gatts_event_handler(
             {
                 let brightness = buffer[0];
 
-                info!("[GATTS] Setting brightness to {}%.", brightness);
+                info!("[GATTS] Setting brightness to {}.", brightness);
 
                 crate::lamp::LAMP
                     .get()
                     .unwrap()
                     .write()
                     .unwrap()
-                    .set_brightness(brightness);
+                    .set_brightness(brightness, false);
 
                 crate::lamp::LAMP
                     .get()
@@ -305,7 +305,7 @@ pub extern "C" fn gatts_event_handler(
                     .unwrap()
                     .write()
                     .unwrap()
-                    .set_temperature(temperature);
+                    .set_temperature(temperature, false);
 
                 crate::lamp::LAMP
                     .get()

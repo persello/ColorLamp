@@ -26,9 +26,11 @@ fn main() {
         .unwrap()
         .write()
         .unwrap()
-        .attach_change_callback(|lamp| {
+        .attach_change_callback(|lamp, notify| {
             // Indicate change.
-            crate::bluetooth::indicate_lamp_changes(lamp);
+            if notify {
+                crate::bluetooth::indicate_lamp_changes(lamp);
+            }
         });
 
     std::thread::spawn(|| loop {
@@ -47,14 +49,14 @@ fn main() {
             .unwrap()
             .write()
             .unwrap()
-            .set_brightness(random_brightness as u8);
+            .set_brightness(random_brightness as u8, true);
 
         crate::lamp::LAMP
             .get()
             .unwrap()
             .write()
             .unwrap()
-            .set_temperature(random_temperature as u8);
+            .set_temperature(random_temperature as u8, true);
     });
 
     // Start the Bluetooth stack.
