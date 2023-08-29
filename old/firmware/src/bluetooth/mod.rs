@@ -83,9 +83,7 @@ pub unsafe fn initialise_bluetooth() {
     let mut constants = constants::Constants::default();
 
     // Set device name.
-    esp_nofail!(esp_ble_gap_set_device_name(
-        constants.device_name.as_ptr().cast::<i8>()
-    ));
+    esp_nofail!(esp_ble_gap_set_device_name(constants.device_name.as_ptr()));
 
     // Configure advertisement data.
     esp_nofail!(esp_ble_gap_config_adv_data(

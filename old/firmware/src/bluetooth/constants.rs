@@ -4,7 +4,7 @@ pub struct Constants {
     pub advertisement_parameters: esp_ble_adv_params_t,
     pub advertisement_data: esp_ble_adv_data_t,
     pub scan_response_data: esp_ble_adv_data_t,
-    pub device_name: String,
+    pub device_name: std::ffi::CString,
     pub lamp_service_id: esp_gatt_srvc_id_t,
     pub brightness_char_id: esp_bt_uuid_t,
     pub temperature_char_id: esp_bt_uuid_t,
@@ -64,7 +64,7 @@ impl Default for Constants {
                 p_service_uuid: SERVICE_UUID.as_ptr() as *mut u8,
                 flag: (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT) as u8,
             },
-            device_name: "Color Lamp".to_string(),
+            device_name: std::ffi::CString::new("Color Lamp").unwrap(),
             lamp_service_id: esp_gatt_srvc_id_t {
                 id: esp_gatt_id_t {
                     uuid: esp_bt_uuid_t {
