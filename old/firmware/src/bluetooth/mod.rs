@@ -144,7 +144,7 @@ pub fn register_temperature_characteristic(service_handle: u16) {
     unsafe {
         esp_nofail!(esp_ble_gatts_add_char(
             service_handle,
-            &mut constants.color_char_id,
+            &mut constants.temperature_char_id,
             (ESP_GATT_PERM_READ | ESP_GATT_PERM_WRITE) as u16,
             (ESP_GATT_CHAR_PROP_BIT_READ
                 | ESP_GATT_CHAR_PROP_BIT_WRITE

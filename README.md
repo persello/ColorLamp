@@ -17,7 +17,7 @@ This repository is split in two folders:
 
 The Bluetooth LE interface of this lamp is composed of a single service that exposes two characteristics, one for the color (temperature, 0-255) and another one for the brightness (0-255). Both characteristics are read/write, and the client can subscribe to notifications for both of them, since the firmware is capable of also reading manual controls from the lamp.
 
-The service is identified by the UUID `4E0F5E1E-FC5B-4D67-8E30-2A83B336476B`, while the characteristics are identified by the UUIDs `CA344E9B-7445-43AA-AD20-43A33C8101E9` (color) and `F9DFBD73-0181-433A-8091-372E0CA8A598` (brightness).
+The service is identified by the UUID `4E0F5E1E-FC5B-4D67-8E30-2A83B336476B`, while the characteristics are identified by the UUIDs `CA344E9B-7445-43AA-AD20-43A33C8101E9` (temperature) and `F9DFBD73-0181-433A-8091-372E0CA8A598` (brightness).
 
 Both characteristics are encoded as 8-bit unsigned integers.
 

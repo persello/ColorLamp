@@ -7,8 +7,20 @@ pub struct Constants {
     pub device_name: String,
     pub lamp_service_id: esp_gatt_srvc_id_t,
     pub brightness_char_id: esp_bt_uuid_t,
-    pub color_char_id: esp_bt_uuid_t,
+    pub temperature_char_id: esp_bt_uuid_t,
 }
+
+const SERVICE_UUID: [u8; 16] = [
+    0x6B, 0x47, 0x36, 0xB3, 0x83, 0x2A, 0x30, 0x8E, 0x67, 0x4D, 0x5B, 0xFC, 0x1E, 0x5E, 0x0F, 0x4E,
+];
+
+const BRIGHTNESS_CHAR_UUID: [u8; 16] = [
+    0x98, 0xA5, 0xA8, 0x0C, 0x2E, 0x37, 0x91, 0x80, 0x3A, 0x43, 0x81, 0x01, 0x73, 0xBD, 0xDF, 0xF9,
+];
+
+const TEMPERATURE_CHAR_UUID: [u8; 16] = [
+    0xE9, 0x01, 0x81, 0x3C, 0xA3, 0x43, 0x20, 0xAD, 0xAA, 0x43, 0x45, 0x74, 0x9B, 0x4E, 0x34, 0xCA,
+];
 
 impl Default for Constants {
     fn default() -> Self {
@@ -49,11 +61,7 @@ impl Default for Constants {
                 service_data_len: 0,
                 p_service_data: std::ptr::null_mut(),
                 service_uuid_len: 16,
-                p_service_uuid: Box::into_raw(Box::new([
-                    0x6B, 0x47, 0x36, 0xB3, 0x83, 0x2A, 0x30, 0x8E, 0x67, 0x4D, 0x5B, 0xFC, 0x1E,
-                    0x5E, 0x0F, 0x4E,
-                ]))
-                .cast::<u8>(),
+                p_service_uuid: SERVICE_UUID.as_ptr() as *mut u8,
                 flag: (ESP_BLE_ADV_FLAG_GEN_DISC | ESP_BLE_ADV_FLAG_BREDR_NOT_SPT) as u8,
             },
             device_name: "Color Lamp".to_string(),
@@ -62,10 +70,7 @@ impl Default for Constants {
                     uuid: esp_bt_uuid_t {
                         len: ESP_UUID_LEN_128 as u16,
                         uuid: esp_bt_uuid_t__bindgen_ty_1 {
-                            uuid128: [
-                                0x6B, 0x47, 0x36, 0xB3, 0x83, 0x2A, 0x30, 0x8E, 0x67, 0x4D, 0x5B,
-                                0xFC, 0x1E, 0x5E, 0x0F, 0x4E,
-                            ],
+                            uuid128: SERVICE_UUID,
                         },
                     },
                     inst_id: 0,
@@ -75,19 +80,13 @@ impl Default for Constants {
             brightness_char_id: esp_bt_uuid_t {
                 len: ESP_UUID_LEN_128 as u16,
                 uuid: esp_bt_uuid_t__bindgen_ty_1 {
-                    uuid128: [
-                        0x98, 0xA5, 0xA8, 0x0C, 0x2E, 0x37, 0x91, 0x80, 0x3A, 0x43, 0x81, 0x01,
-                        0x73, 0xBD, 0xDF, 0xF9,
-                    ],
+                    uuid128: BRIGHTNESS_CHAR_UUID,
                 },
             },
-            color_char_id: esp_bt_uuid_t {
+            temperature_char_id: esp_bt_uuid_t {
                 len: ESP_UUID_LEN_128 as u16,
                 uuid: esp_bt_uuid_t__bindgen_ty_1 {
-                    uuid128: [
-                        0xE9, 0x01, 0x81, 0x3C, 0xA3, 0x43, 0x20, 0xAD, 0xAA, 0x43, 0x45, 0x74,
-                        0x9B, 0x4E, 0x34, 0xCA,
-                    ],
+                    uuid128: TEMPERATURE_CHAR_UUID,
                 },
             },
         }
