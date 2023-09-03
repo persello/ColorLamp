@@ -121,6 +121,7 @@ pub extern "C" fn gatts_event_handler(
                         "[GATTS] Registering temperature characteristic for service with handle {}.",
                         param.service_handle
                     );
+
                     crate::bluetooth::register_temperature_characteristic(param.service_handle);
                 } else if param.char_uuid.uuid.uuid128
                     == crate::bluetooth::constants::Constants::default()

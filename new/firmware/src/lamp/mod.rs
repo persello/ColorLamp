@@ -3,8 +3,6 @@ use std::{
     sync::{OnceLock, RwLock},
 };
 
-pub static LAMP: OnceLock<RwLock<crate::lamp::Lamp>> = OnceLock::new();
-
 /// A lamp that can be controlled.
 pub struct Lamp {
     temperature: u8,
