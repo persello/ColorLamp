@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-
+    
     let colorGradient = LinearGradient(
         gradient: Gradient(
             colors: [
@@ -21,25 +21,29 @@ struct ContentView: View {
         startPoint: .leading,
         endPoint: .trailing
     )
-
+    
     let brightnessGradient = LinearGradient(colors: [
         .gray,
         .white
     ], startPoint: .leading, endPoint: .trailing)
-
+    
     @State private var brightness: Float = 0.0
     @State private var temperature: Float = 0.0
     private var coordinator = BluetoothCoordinator()
-
+    
     var body: some View {
         VStack(alignment: .leading) {
-
+            
             Text("Devices")
                 .foregroundStyle(.secondary)
                 .fontWeight(.semibold)
-
+            
             List {
-                ForEach(Array(coordinator.discoveredPeripherals), id: \.identifier) { peripheral in
+                ForEach(
+                    Array(
+                        coordinator.discoveredPeripherals),
+                    id: \.identifier
+                ) { peripheral in
                     Button(peripheral.name ?? "Unknown peripheral") {
                         coordinator.connect(to: peripheral)
                     }
@@ -47,15 +51,23 @@ struct ContentView: View {
             }
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .padding(.bottom, 36)
-
+            
             Group {
-                CustomSliderView(value: $temperature, fillGradient: colorGradient)
-                    .frame(height: 60)
-                    .padding(.vertical, 8)
-
-                CustomSliderView(value: $brightness, fillGradient: brightnessGradient, startIcon: Image(systemName: "sun.min"), endIcon: Image(systemName: "sun.max"))
-                    .frame(height: 60)
-                    .padding(.vertical, 8)
+                CustomSliderView(
+                    value: $temperature,
+                    fillGradient: colorGradient
+                )
+                .frame(height: 60)
+                .padding(.vertical, 8)
+                
+                CustomSliderView(
+                    value: $brightness,
+                    fillGradient: brightnessGradient,
+                    startIcon: Image(systemName: "sun.min"),
+                    endIcon: Image(systemName: "sun.max")
+                )
+                .frame(height: 60)
+                .padding(.vertical, 8)
             }
             .disabled(!coordinator.connected)
         }
