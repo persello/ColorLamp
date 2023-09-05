@@ -40,8 +40,7 @@ struct ContentView: View {
             
             List {
                 ForEach(
-                    Array(
-                        coordinator.discoveredPeripherals),
+                    Array(coordinator.discoveredPeripherals),
                     id: \.identifier
                 ) { peripheral in
                     Button(peripheral.name ?? "Unknown peripheral") {
