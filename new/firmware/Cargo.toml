@@ -15,7 +15,7 @@ opt-level = "z"
 
 [features]
 
-default = ["std", "hal", "esp-idf-sys/native"]
+default = ["std", "hal"]
 
 
 pio = ["esp-idf-sys/pio"]
@@ -29,9 +29,9 @@ embassy = ["esp-idf-hal?/embassy-sync", "esp-idf-hal?/critical-section", "esp-id
 
 [dependencies]
 log = { version = "0.4.17", default-features = false }
-esp-idf-sys = { version = "0.31", default-features = false }
-esp-idf-hal = { version = "0.39", optional = true, default-features = false }
-esp-idf-svc = { version = "0.43", optional = true, default-features = false }
+esp-idf-sys = { version = "0.31.11", default-features = false }
+esp-idf-hal = { version = "0.39.2", optional = true, default-features = false }
+esp-idf-svc = { version = "0.43.3", optional = true, default-features = false }
 embedded-svc = { version = "0.25", optional = true, default-features = false }
 rand = { version = "0.8.5" }
 bluedroid = { version = "0.3.7" }

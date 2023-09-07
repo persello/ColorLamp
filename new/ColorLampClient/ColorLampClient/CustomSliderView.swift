@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct CustomSliderView: View {
-    @Binding var value: Float
+    var scale: UInt8 = 255
+    @Binding var value: UInt8
     @State var lastDragStart: CGFloat = 0
 
     @Environment(\.isEnabled) var isEnabled
@@ -46,18 +47,32 @@ struct CustomSliderView: View {
                         .gesture(
                             DragGesture(minimumDistance: 0, coordinateSpace: .global)
                                 .onChanged({ value in
-                                    let delta = value.translation.width - lastDragStart
-                                    self.value += Float(delta / (proxy.size.width - proxy.size.height))
+                                    let delta = (value.translation.width - lastDragStart) * CGFloat(self.scale) / (proxy.size.width - proxy.size.height)
+                                    
                                     lastDragStart = value.translation.width
-                                    if self.value > 1.0 { self.value = 1.0 }
-                                    if self.value < 0.0 { self.value = 0.0 }
+                                    
+                                    print(self.value)
+                                    
+                                    if delta < 0 {
+                                        if abs(delta) > CGFloat(self.value) {
+                                            self.value = 0
+                                        } else {
+                                            self.value -= UInt8(abs(delta))
+                                        }
+                                    } else {
+                                        if abs(delta) > CGFloat(self.scale - self.value) {
+                                            self.value = self.scale
+                                        } else {
+                                            self.value += UInt8(delta)
+                                        }
+                                    }
                                 })
                                 .onEnded({ _ in
                                     lastDragStart = 0
                                 })
                         )
                         .padding(4)
-                        .offset(x: CGFloat(self.value) * (proxy.size.width - proxy.size.height))
+                        .offset(x: CGFloat(self.value) / CGFloat(self.scale) * (proxy.size.width - proxy.size.height))
                         .foregroundStyle(.white.gradient)
                         .opacity(isEnabled ? 1.0 : 0.5)
                         .shadow(radius: 2, y: 1)
@@ -88,9 +103,9 @@ struct CustomSliderView: View {
         .white
     ], startPoint: .leading, endPoint: .trailing)
 
-    var value: Float = 0.5
+    var value: UInt8 = 127
 
-    let binding = Binding<Float> {
+    let binding = Binding<UInt8> {
         return value
     } set: { new in
         value = new

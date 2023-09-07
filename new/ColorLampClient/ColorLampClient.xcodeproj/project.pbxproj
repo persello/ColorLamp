@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ADBEC0C12A98EB41006B9740 /* BluetoothCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADBEC0C02A98EB41006B9740 /* BluetoothCoordinator.swift */; };
+		AD1A6E9C2AA8AFF00082972A /* ColorLampPeripheral.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1A6E9B2AA8AFF00082972A /* ColorLampPeripheral.swift */; };
+		AD1A6E9F2AA8B0260082972A /* CharacteristicKit in Frameworks */ = {isa = PBXBuildFile; productRef = AD1A6E9E2AA8B0260082972A /* CharacteristicKit */; };
 		ADE335A32A935B54002A29E9 /* ColorLampClientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE335A22A935B54002A29E9 /* ColorLampClientApp.swift */; };
 		ADE335A52A935B54002A29E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE335A42A935B54002A29E9 /* ContentView.swift */; };
 		ADE335A72A935B57002A29E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADE335A62A935B57002A29E9 /* Assets.xcassets */; };
@@ -16,8 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AD1A6E9B2AA8AFF00082972A /* ColorLampPeripheral.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLampPeripheral.swift; sourceTree = "<group>"; };
 		AD6854872A9CCF8E0055C996 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		ADBEC0C02A98EB41006B9740 /* BluetoothCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothCoordinator.swift; sourceTree = "<group>"; };
 		ADE3359F2A935B54002A29E9 /* ColorLampClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ColorLampClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADE335A22A935B54002A29E9 /* ColorLampClientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLampClientApp.swift; sourceTree = "<group>"; };
 		ADE335A42A935B54002A29E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD1A6E9F2AA8B0260082972A /* CharacteristicKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -57,8 +59,8 @@
 		ADE335A12A935B54002A29E9 /* ColorLampClient */ = {
 			isa = PBXGroup;
 			children = (
-				ADBEC0C02A98EB41006B9740 /* BluetoothCoordinator.swift */,
 				ADE335A22A935B54002A29E9 /* ColorLampClientApp.swift */,
+				AD1A6E9B2AA8AFF00082972A /* ColorLampPeripheral.swift */,
 				ADE335A42A935B54002A29E9 /* ContentView.swift */,
 				ADE335B12A935BAC002A29E9 /* CustomSliderView.swift */,
 				ADE335A62A935B57002A29E9 /* Assets.xcassets */,
@@ -93,6 +95,9 @@
 			dependencies = (
 			);
 			name = ColorLampClient;
+			packageProductDependencies = (
+				AD1A6E9E2AA8B0260082972A /* CharacteristicKit */,
+			);
 			productName = ColorLampClient;
 			productReference = ADE3359F2A935B54002A29E9 /* ColorLampClient.app */;
 			productType = "com.apple.product-type.application";
@@ -121,6 +126,9 @@
 				Base,
 			);
 			mainGroup = ADE335962A935B54002A29E9;
+			packageReferences = (
+				AD1A6E9D2AA8B0260082972A /* XCRemoteSwiftPackageReference "characteristickit" */,
+			);
 			productRefGroup = ADE335A02A935B54002A29E9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -148,9 +156,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADE335A52A935B54002A29E9 /* ContentView.swift in Sources */,
+				AD1A6E9C2AA8AFF00082972A /* ColorLampPeripheral.swift in Sources */,
 				ADE335A32A935B54002A29E9 /* ColorLampClientApp.swift in Sources */,
 				ADE335B22A935BAC002A29E9 /* CustomSliderView.swift in Sources */,
-				ADBEC0C12A98EB41006B9740 /* BluetoothCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +381,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		AD1A6E9D2AA8B0260082972A /* XCRemoteSwiftPackageReference "characteristickit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/persello/characteristickit";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		AD1A6E9E2AA8B0260082972A /* CharacteristicKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AD1A6E9D2AA8B0260082972A /* XCRemoteSwiftPackageReference "characteristickit" */;
+			productName = CharacteristicKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ADE335972A935B54002A29E9 /* Project object */;
 }

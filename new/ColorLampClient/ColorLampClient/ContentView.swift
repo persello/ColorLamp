@@ -8,7 +8,56 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var peripheral: ColorLampPeripheral?
+    @State private var discoveredPeripherals: [ColorLampPeripheral] = []
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            
+            Text("Devices")
+                .foregroundStyle(.secondary)
+                .fontWeight(.semibold)
+            
+            List {
+                ForEach(discoveredPeripherals) { peripheral in
+                    Button(peripheral.name) {
+                        self.peripheral = peripheral
+                        peripheral.connect()
+                    }
+                }
+            }
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .padding(.bottom, 36)
+            
+            if let peripheral {
+                ExtractedView(peripheral: peripheral)
+            }
+        }
+        .task {
+            while true {
+                guard let stream = ColorLampPeripheral.discover(removeAfter: 5) else {
+                    continue
+                }
+                
+                for await discovered in stream {
+                    self.discoveredPeripherals = discovered
+                }
+            }
+        }
+        .padding()
+    }
+}
 
+#Preview {
+    NavigationStack {
+        ContentView()
+            .navigationTitle("Color Lamp")
+    }
+}
+
+struct ExtractedView: View {
+    @ObservedObject var peripheral: ColorLampPeripheral
+    
     let colorGradient = LinearGradient(
         gradient: Gradient(
             colors: [
@@ -21,68 +70,22 @@ struct ContentView: View {
         startPoint: .leading,
         endPoint: .trailing
     )
-
+    
     let brightnessGradient = LinearGradient(colors: [
         .gray,
         .white
     ], startPoint: .leading, endPoint: .trailing)
-
-    @State private var brightness: Float = 0.0
-    @State private var temperature: Float = 0.0
-    private var coordinator = BluetoothCoordinator()
-
+    
     var body: some View {
-        VStack(alignment: .leading) {
-
-            Text("Devices")
-                .foregroundStyle(.secondary)
-                .fontWeight(.semibold)
-
-            List {
-                ForEach(Array(coordinator.discoveredPeripherals), id: \.identifier) { peripheral in
-                    Button(peripheral.name ?? "Unknown peripheral") {
-                        coordinator.connect(to: peripheral)
-                    }
-                }
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 16))
-            .padding(.bottom, 36)
-
-            Group {
-                CustomSliderView(value: $temperature, fillGradient: colorGradient)
-                    .frame(height: 60)
-                    .padding(.vertical, 8)
-
-                CustomSliderView(value: $brightness, fillGradient: brightnessGradient, startIcon: Image(systemName: "sun.min"), endIcon: Image(systemName: "sun.max"))
-                    .frame(height: 60)
-                    .padding(.vertical, 8)
-            }
-            .disabled(!coordinator.connected)
+        Group {
+            CustomSliderView(value: $peripheral.temperature.value, fillGradient: colorGradient)
+                .frame(height: 60)
+                .padding(.vertical, 8)
+            
+            CustomSliderView(value: $peripheral.brightness.value, fillGradient: brightnessGradient, startIcon: Image(systemName: "sun.min"), endIcon: Image(systemName: "sun.max"))
+                .frame(height: 60)
+                .padding(.vertical, 8)
         }
-        .onAppear {
-            coordinator.scan()
-            coordinator.onBrightnessChange { brightness in
-                self.brightness = Float(brightness) / 255.0
-            }
-            coordinator.onTemperatureChange { temperature in
-                self.temperature = Float(temperature) / 255.0
-            }
-        }
-        .onChange(of: brightness, { oldValue, newValue in
-            guard oldValue != newValue else { return }
-            try? coordinator.setBrightness(newValue * 255.0)
-        })
-        .onChange(of: temperature, { oldValue, newValue in
-            guard oldValue != newValue else { return }
-            try? coordinator.setTemperature(newValue * 255.0)
-        })
-        .padding()
-    }
-}
-
-#Preview {
-    NavigationStack {
-        ContentView()
-            .navigationTitle("Color Lamp")
+        .disabled(!peripheral.connected)
     }
 }

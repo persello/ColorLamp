@@ -27,7 +27,7 @@ pub fn indicate_lamp_changes(lamp: &crate::lamp::Lamp) {
             values.get_gatts_if(),
             values.get_conn_id(),
             values.get_temperature_handle(),
-            2,
+            1,
             lamp.get_temperature().to_le_bytes().to_vec().as_ptr() as _,
             false,
         );
