@@ -22,7 +22,8 @@ linker = "ldproxy"
 rustflags = ["-C", "default-linker-libraries"]
 
 [env]
-ESP_IDF_VERSION = "v4.4.4"
+
+ESP_IDF_VERSION = { value = "tag:v4.4.2" }
 
 [unstable]
 build-std = ["std", "panic_abort"]

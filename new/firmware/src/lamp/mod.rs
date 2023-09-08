@@ -1,8 +1,3 @@
-use std::{
-    fmt::Debug,
-    sync::{OnceLock, RwLock},
-};
-
 /// A lamp that can be controlled.
 pub struct Lamp {
     temperature: u8,
@@ -68,7 +63,7 @@ impl Lamp {
     }
 }
 
-impl Debug for Lamp {
+impl std::fmt::Debug for Lamp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Lamp")
             .field("temperature", &self.temperature)
