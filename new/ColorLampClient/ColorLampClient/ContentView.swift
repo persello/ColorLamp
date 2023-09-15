@@ -34,11 +34,7 @@ struct ContentView: View {
             }
         }
         .task {
-            while true {
-                guard let stream = ColorLampPeripheral.discover(removeAfter: 5) else {
-                    continue
-                }
-                
+            if let stream = ColorLampPeripheral.discover(removeAfter: 5) {
                 for await discovered in stream {
                     self.discoveredPeripherals = discovered
                 }
