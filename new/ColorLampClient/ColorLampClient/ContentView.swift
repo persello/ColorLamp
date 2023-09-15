@@ -74,13 +74,21 @@ struct SlidersView: View {
     
     var body: some View {
         Group {
-            CustomSliderView(value: $peripheral.temperature.value, fillGradient: colorGradient)
-                .frame(height: 60)
-                .padding(.vertical, 8)
+            CustomSliderView(
+                value: $peripheral.temperature.value,
+                fillGradient: colorGradient
+            )
+            .frame(height: 60)
+            .padding(.vertical, 8)
             
-            CustomSliderView(value: $peripheral.brightness.value, fillGradient: brightnessGradient, startIcon: Image(systemName: "sun.min"), endIcon: Image(systemName: "sun.max"))
-                .frame(height: 60)
-                .padding(.vertical, 8)
+            CustomSliderView(
+                value: $peripheral.brightness.value,
+                fillGradient: brightnessGradient,
+                startIcon: Image(systemName: "sun.min"),
+                endIcon: Image(systemName: "sun.max")
+            )
+            .frame(height: 60)
+            .padding(.vertical, 8)
         }
         .disabled(!peripheral.connected)
     }
