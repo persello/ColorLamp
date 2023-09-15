@@ -30,7 +30,7 @@ struct ContentView: View {
             .padding(.bottom, 36)
             
             if let peripheral {
-                ExtractedView(peripheral: peripheral)
+                SlidersView(peripheral: peripheral)
             }
         }
         .task {
@@ -51,7 +51,7 @@ struct ContentView: View {
     }
 }
 
-struct ExtractedView: View {
+struct SlidersView: View {
     @ObservedObject var peripheral: ColorLampPeripheral
     
     let colorGradient = LinearGradient(
